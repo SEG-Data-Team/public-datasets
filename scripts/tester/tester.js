@@ -29,4 +29,5 @@ dropList.addEventListener('click', function () {
 prettyPlease = function() {
     console.log("I am here")
 }
+
 console.log('script loaded')
