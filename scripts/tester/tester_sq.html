@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>This is a dev page - shoo</title>
+</head>
+<body>
+    <div id="externalContent"></div>
+
+    <script>
+        // Fetch HTML content from a different source
+        fetch('https://example.com/external-page.html')
+            .then(response => response.text())
+            .then(html => {
+                // Display the fetched HTML content
+                document.getElementById('externalContent').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching content:', error);
+            });
+    </script>
+</body>
+</html>
