@@ -19,3 +19,7 @@ dropList.addEventListener('click', function () {
 
     console.log('trigger worked')
 })
+
+prettyPlease = function() {
+    console.log("I am here")
+}
