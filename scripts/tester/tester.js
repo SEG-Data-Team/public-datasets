@@ -1,7 +1,8 @@
+
 console.log('script loaded')
 const dropList = document.getElementById("selectOptionDataset")
 
-dropList.addEventListener('mouseover', function () {
+dropList.addEventListener('click', function () {
     const popupContent = document.getElementById('popupContent');
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
