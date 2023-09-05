@@ -1,3 +1,15 @@
+console.log('html loading')
+fetch('https://raw.githubusercontent.com/SEG-Data-Team/public-datasets/main/scripts/tester/tester.html')
+            .then(response => response.text())
+            .then(html => {
+                // Display the fetched HTML content
+                document.getElementById('externalContent').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching content:', error);
+            });
+
+console.log('html loaded')
 
 console.log('script loading')
 const dropList = document.getElementById("selectOptionDataset")
