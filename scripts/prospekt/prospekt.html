@@ -1,0 +1,425 @@
+<small>We recommend using Chrome or Firefox for the best possible experience using our platform. </small>
+<br>
+<small>Other browsers may encounter problems when creating a user account / logging in.</small>
+<H3>Prospekt data selector</H3>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/SEG-Data-Team/public-datasets/main/scripts/prospekt/prospekt.css">
+<head>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+<small>Please note that all inputs are optional.</small>
+<br>
+<br>
+<div>
+    <strong>
+        <label for="selectOption">Choose your dataset</label>
+    </strong>
+    <select id="selectOptionDataset" name="selectOption">
+        <option value="Both">Full Dataset</option>
+        <option value="Companies">Companies</option>
+        <option value="Officers & Employees">Officers & Employees</option>
+    </select>
+</div>
+<br>
+<!-- Changing the dataset from "Full", "Companies" or "Officers & Employees" will change the layout of this page. If you have any questions, you can send us an email at <a class = "link-style" href="mailto:hello@stubbenedgelabs.com">hello@stubbenedgelabs.com</a>. -->
+
+<div id="companyBlock">
+    <h4>Companies Section</h4>
+    <strong>Choose your sectors</strong>
+    <br>
+    <!-- Multiselect block of checkboxes for SIC Sections -->
+    <div class="multiselect-container" id="Sector">
+        <label><input type="checkbox" name="SIC" value="A"> A - Agriculture, Forestry And Fishing</label>
+        <label><input type="checkbox" name="SIC" value="B"> B - Mining And Quarrying</label>
+        <label><input type="checkbox" name="SIC" value="C"> C - Manufacturing</label>
+        <label><input type="checkbox" name="SIC" value="D"> D - Electricity, Gas, Steam And Air Conditioning Supply</label>
+        <label><input type="checkbox" name="SIC" value="E"> E - Water Supply; Sewerage, Waste Management And Remediation Activities</label>
+        <label><input type="checkbox" name="SIC" value="F"> F - Construction</label>
+        <label><input type="checkbox" name="SIC" value="G"> G - Wholesale And Retail Trade; Repair Of Motor Vehicles And Motorcycles</label>
+        <label><input type="checkbox" name="SIC" value="H"> H - Transportation And Storage</label>
+        <label><input type="checkbox" name="SIC" value="I"> I - Accommodation And Food Service Activities</label>
+        <label><input type="checkbox" name="SIC" value="J"> J - Information And Communication</label>
+        <label><input type="checkbox" name="SIC" value="K"> K - Financial And Insurance Activities</label>
+        <label><input type="checkbox" name="SIC" value="L"> L - Real Estate Activities</label>
+        <label><input type="checkbox" name="SIC" value="M"> M - Professional, Scientific And Technical Activities</label>
+        <label><input type="checkbox" name="SIC" value="N"> N - Administrative And Support Service Activities</label>
+        <label><input type="checkbox" name="SIC" value="O"> O - Public Administration And Defence; Compulsory Social Security</label>
+        <label><input type="checkbox" name="SIC" value="P"> P - Education</label>
+        <label><input type="checkbox" name="SIC" value="Q"> Q - Human Health And Social Work Activities</label>
+        <label><input type="checkbox" name="SIC" value="R"> R - Arts, Entertainment And Recreation</label>
+        <label><input type="checkbox" name="SIC" value="S"> S - Other Service Activities</label>
+        <label><input type="checkbox" name="SIC" value="T"> T - Activities Of Households As Employers; Undifferentiated Goods-And Services-Producing Activities Of Households For Own Use</label>
+        <label><input type="checkbox" name="SIC" value="U"> U - Activities Of Extraterritorial Organisations And Bodies</label>
+    </div>
+    <div></div>
+
+    <p></p>
+    <strong>Choose your industry SIC Codes</strong>
+    <p></p>
+    <!-- Search bar with scrollable dropdown for Industry Sic Code by text -->
+    <div id="searchContainerSIC1Text" class ="search-container">
+        <i>By Descriptor</i>
+        <br>
+        <input class="search-input" type="text" id="searchInputSIC1Text" placeholder="E.g. financial services" oninput="filterOptions('SIC1Text')" onfocus="showDropdown('SIC1Text')">
+        <div class="search-list" id="searchListSIC1Text"></div>
+        <!-- Tags container -->
+        <div class="tags-container" id="tagsContainerSIC1Text"></div>
+    </div>
+    <br>
+    <!-- Search bar with scrollable dropdown for Industry Sic Code by text -->
+    <div id="searchContainerSIC1Code" class ="search-container">
+        <i>By Code</i>
+        <br>
+        <input class="search-input" type="text" id="searchInputSIC1Code" placeholder="E.g 62777" oninput="filterOptions('SIC1Code')" onfocus="showDropdown('SIC1Code')">
+        <div class="search-list" id="searchListSIC1Code"></div>
+        <!-- Tags container -->
+        <div class="tags-container" id="tagsContainerSIC1Code"></div>
+    </div>
+
+    <p></p>
+    <strong>Choose your area</strong>
+    <p></p>
+    <i>By City</i>
+    <br>
+    <!-- Search bar with scrollable dropdown for Region City -->
+    <div id="searchContainerCity" class ="search-container">
+        <input class="search-input" type="text" id="searchInputCity" placeholder="E.g. London" oninput="filterOptions('City')" onfocus="showDropdown('City')">
+        <div class="search-list" id="searchListCity"></div>
+    </div>
+    <!-- Tags container -->
+    <div class="tags-container" id="tagsContainerCity"></div>
+
+    <i>By Postal Area</i>
+    <br>
+    <!-- Search bar with scrollable dropdown for Region Postcode -->
+    <div id="searchContainerPostcode" class ="search-container">
+        <input class="search-input" type="text" id="searchInputPostcode" placeholder="E.g. W1" oninput="filterOptions('Postcode')" onfocus="showDropdown('Postcode')">
+        <div class="search-list" id="searchListPostcode"></div>
+    </div>
+    <!-- Tags container -->
+    <div class="tags-container" id="tagsContainerPostcode"></div>
+    <small>Please note that Postcode and City filters must be overlapping. For example, selecting City="Edinburg" and Postal Area="W2" will result in 0 records.</small>
+    <p></p>
+    <strong>Choose your incorporation dates</strong>
+    <form class="custom-form" >
+        <div class="input-container">
+            <label class="fromToLabel" for="startDate">From:</label>
+            <input type="text" id="startDateIncorp" name="startDate" placeholder="YYYY/MM/DD">
+        </div>
+        <small class="userWarning">Please input a valid date</small>
+        <div class="input-container">
+            <label class="fromToLabel" for="endDate">To:</label>
+            <input type="text" id="endDateIncorp" name="endDate" placeholder="YYYY/MM/DD">
+        </div>
+        <small class="userWarning">Please input a valid date</small>
+    </form>
+    <strong>Choose your financial metric ranges</strong>
+    <p></p>
+    <i>Turnover</i>
+    <form class="custom-form" id="turnover">
+        <div class="input-container">
+            <label class="fromToLabel" for="minValue" style="display: inline-block;">Min:</label>
+            <input type="number" id="turnover_from" name="minValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabel" for="maxValue" style="display: inline-block;">Max:</label>
+            <input type="number" id="turnover_to" name="maxValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container" >
+            <label class="fromToLabelNulls"><input type="checkbox" id="unknownTurnover" name="IncludeNulls" checked> Include companies with no reported data on Turnover</label>
+        </div>
+    </form>
+
+    <i>Employees</i>
+    <form class="custom-form"  id="employees">
+        <div class="input-container">
+            <label class="fromToLabel" for="minValue">Min:</label>
+            <input type="number" id="employees_from" name="minValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabel" for="maxValue">Max:</label>
+            <input type="number" id="employees_to" name="maxValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabelNulls"><input type="checkbox" id="unknownEmployees" name="IncludeNulls" checked> Include companies with no reported data on Employees</label>
+        </div>
+    </form>
+
+    <i>Assets</i>
+    <form class="custom-form"  id="assets">
+        <div class="input-container">
+            <label class="fromToLabel" for="minValue">Min:</label>
+            <input type="number" id="assets_from" name="minValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabel" for="maxValue">Max:</label>
+            <input type="number" id="assets_to" name="maxValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabelNulls"><input type="checkbox" id="unknownAssets" name="IncludeNulls" checked> Include companies with no reported data on Assets</label>
+        </div>
+    </form>
+
+    <i>Liabilities</i>
+    <form class="custom-form"  id="liabilities">
+        <div class="input-container">
+            <label class="fromToLabel" for="minValue">Min:</label>
+            <input type="number" id="liabilities_from" name="minValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabel" for="maxValue">Max:</label>
+            <input type="number" id="liabilities_to" name="maxValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabelNulls"><input type="checkbox" id="unknownLiabilities" name="IncludeNulls" checked> Include companies with no reported data on Liabilites</label>
+        </div>
+    </form>
+
+    <i>Net Worth</i>
+    <form class="custom-form"  id="networth">
+        <div class="input-container">
+            <label class="fromToLabel" for="minValue">Min:</label>
+            <input type="number" id="networth_from" name="minValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabel" for="maxValue">Max:</label>
+            <input type="number" id="networth_to" name="maxValue" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div class="input-container">
+            <label class="fromToLabelNulls"><input type="checkbox" id="unknownNetworth" name="IncludeNulls" checked> Include companies with no reported data on Net Worth</label>
+        </div>
+    </form>
+
+
+    <strong>Company contact details</strong>
+    <p></p>
+    <!-- Multiselect block of checkboxes for SIC Sections -->
+    <div class="multiselect-container" id="contact-details" style="margin-bottom: 10px;">
+        <label><input type="checkbox" id="website" name="contact-details" value="A"> Has Website</label>
+        <label><input type="checkbox" id="phone_number" name="contact-details" value="B"> Has Phone Number</label>
+        <label><input type="checkbox" id="linkedin"  name="contact-details" value="C"> Has LinkedIn</label>
+        <label><input type="checkbox" id="email_pattern" name="contact-details" value="D"> Has Email Pattern</label>
+        </div>
+    </div>
+<br>
+
+<div id="employeeBlock" style="display: block;">
+    <h4>Directors, Officers & Employees Section</h4>
+    <!-- Your additional code here -->
+
+    <div>
+        <strong>
+            <label for="selectOption">Choose the type of persons</label>
+        </strong>
+        <select id="selectOptionEmployeeRecordType" name="selectOption">
+            <option title="Individuals / Entities registered as company officers with Companies House." value="Companies House Officers">Directors & Officers</option>
+            <option title="Collated and enriched publicly available data sources." value="Public Domain Employees">Employee Register</option>
+        </select>
+    </div>
+
+    <div id="employee-specific" style="display: none;">
+    <p></p>
+    <strong>Choose your departments</strong>
+    <p></p>
+    <!-- Search bar with scrollable dropdown for Employee Department -->
+    <div id="searchContainerDepartment" class="search-container">
+        <input class="search-input" type="text" id="searchInputDepartment" placeholder="Search..." oninput="filterOptions('Department')" onfocus="showDropdown('Department')">
+        <div class="search-list" id="searchListDepartment"></div>
+    </div>
+    <!-- Tags container -->
+    <div class="tags-container" id="tagsContainerDepartment"></div>
+    <div class="input-container">
+        <label><input type="checkbox" id="unknownDepartments" name="IncludeNulls" checked> Include Unknown</label>
+    </div>
+    <p></p>
+
+    <strong>Choose your roles</strong>
+    <p></p>
+    <!-- Search bar with scrollable dropdown for Employee Department -->
+    <div id="searchContainerRoles" class="search-container">
+        <input class="search-input" type="text" id="searchInputRoles" placeholder="Search..." oninput="filterOptions('Roles')" onfocus="showDropdown('Roles')">
+        <div class="search-list" id="searchListRoles"></div>
+    </div>
+    <!-- Tags container -->
+    <div class="tags-container" id="tagsContainerRoles"></div>
+    <div class="input-container">
+        <label><input type="checkbox" id="unknownRoles" name="IncludeNulls" checked> Include Unknown</label>
+    </div>
+    <p></p>
+
+    <strong>Choose your seniority levels</strong>
+    <p></p>
+    <!-- Multiselect block of checkboxes for SIC Sections -->
+    <div class="multiselect-container" id="seniorityMultiselect">
+        <label><input type="checkbox" name="seniority" value="Executive"> Executive</label>
+        <label><input type="checkbox" name="seniority" value="Senior Management"> Senior Management</label>
+        <label><input type="checkbox" name="seniority" value="Senior Non-management"> Senior Non-management</label>
+        <label><input type="checkbox" name="seniority" value="Junior"> Junior</label>
+        <label><input type="checkbox" name="seniorityUnknown" id="unknownSeniority" value="E" checked> Include Unknown</label>
+    </div>
+    <p></p>
+
+    <div id="country-specific" style="display: none;">
+        <strong>Choose your country</strong>
+        <p></p>
+        <!-- Search bar with scrollable dropdown for Employee country -->
+        <div id="searchContainerCountry" class="search-container">
+            <input class="search-input" type="text" id="searchInputCountry" placeholder="Search..." oninput="filterOptions('Country')" onfocus="showDropdown('Country')">
+            <div class="search-list" id="searchListCountry"></div>
+        </div>
+        <!-- Tags container -->
+        <div class="tags-container" id="tagsContainerCountry"></div>
+        <div class="input-container" style="padding-bottom: 10px;">
+            <label><input type="checkbox" id="unknownCountry" name="IncludeNulls" checked> Include Unknown</label>
+        </div>
+    </div>
+    </div>
+    <p></p>
+
+    <div id="employment-history-appointed">
+        <strong>Appointment Date</strong>
+        <form class="custom-form" >
+            <div class="input-container">
+                <label class="fromToLabel" for="startDate">From:</label>
+                <input type="text" id="startDateAppointment" name="startDate" placeholder="YYYY/MM/DD">
+            </div>
+            <small class="userWarning">Please input a valid date</small>
+            <div class="input-container">
+                <label class="fromToLabel" for="endDate">To:</label>
+                <input type="text" id="endDateAppointment" name="endDate" placeholder="YYYY/MM/DD">
+            </div>
+            <small class="userWarning">Please input a valid date</small>
+        </form>
+    </div>
+    <div id="employment-history" style="display: none;">
+        <div id="employment-history-resigned" style="display: none;">
+            <strong>Resignation Date</strong>
+            <form class="custom-form" >
+                <div class="input-container">
+                    <label class="fromToLabel" for="startDate">From:</label>
+                    <input type="text" id="startDateResignation" name="startDate" placeholder="YYYY/MM/DD">
+                </div>
+                <small class="userWarning">Please input a valid date</small>
+                <div class="input-container">
+                    <label class="fromToLabel" for="endDate">To:</label>
+                    <input type="text" id="endDateResignation" name="endDate" placeholder="YYYY/MM/DD">
+                </div>
+                <small class="userWarning">Please input a valid date</small>
+            </form>
+        </div>
+        <div id="employment-history-select">
+            <strong>Employment History</strong> 
+            <p></p>
+            <div>
+                <select id="activeStatusSingleSelect" name="selectOption">
+                    <option value="Active">Only current role</option>
+                    <option value="Resigned">Only past (non-current) roles</option>
+                    <option value="">Full employment history</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div>
+    <h4>Dataset Limits & Order</h4>
+    <p></p>
+    <div id="limits-section">
+        <strong>Do you want to limit the extract size?</strong> 
+        <p></p>
+        <div>
+            <select id="limitYesNo" name="selectOption">
+                <option value="Yes" selected>Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+    </div>
+    <p></p>
+    <form class="custom-form"  id="limits">
+        <div id="max_companies_display">
+            <label for="maxValue" style="white-space: nowrap;">Maximum number of companies:</label>
+            <input type="number" id="max_companies" name="maxValue" value="10000" min="0" max="9999999999" maxlength="10">
+        </div>
+        <!--
+        <div class="input-container" id="employees_per_company_display" >
+            <label for="maxValue">Maximum employees per company</label>
+            <input type="number" id="employees_per_company" name="maxValue" value="10">
+        </div>
+        <div class="input-container" id="max_persons_display" >
+            <label for="maxValue">Maximum number of persons</label>
+            <input type="number" id="max_persons" name="maxValue" value="10000">
+        </div>
+        -->
+        <div id="max_records_display" >
+            <label for="maxValue" style="white-space: nowrap;">Maximum number of records:</label>
+            <input type="number" id="max_records" name="maxValue" value="10000" min="0" max="9999999999" maxlength="10">
+        </div>
+        <div id="max_records_per_comp_display" >
+            <label for="maxValue" style="white-space: nowrap;">Maximum number of records per company:</label>
+            <input type="number" id="max_records_per_comp" name="maxValue" value="10" min="0" max="9999999999" maxlength="10">
+        </div>
+    </form>
+    <div id="random-sample">
+        <p></p>
+        <strong>Do you want a random sample?</strong> 
+        <p></p>
+        <div>
+            <select id="randomSampleSelect" name="selectOption">
+                <option value="Yes">Yes</option>
+                <option value="No" selected>No</option>
+            </select>
+        </div>
+    </div>
+    <div id="data-order">
+        <p></p>
+        <strong>Order your dataset by</strong>
+        <p></p>
+        <div>
+            <select id="orderSelect" name="orderSelect"></select>
+        </div>
+        <br>
+        <div class="input-container">
+            <label><input type="checkbox" id="orderAscending" name="ordering" checked> Ascending Order</label>
+        </div>
+    </div>
+
+</div>
+
+<br>
+<br>
+<hr style="width: 100%;">
+<div>
+    <button title="Resets all user selections to their default value." id="resetBtn" class="sqs-button-element--primary" value="Reset Inputs" onclick="resetForm()">Reset Inputs</button>
+    <button title="Sends a static sample of our data to the logged in user's email address." id="sampleBtn" class="sqs-button-element--primary" onclick="requestSample()">Request Sample</button>
+    <button title="Generates a high level summary of the requested data. Includes record counts and cost." id="submitBtn" class="sqs-button-element--primary" onclick="submitForm()">Preview Submission</button>
+    <!--
+        <button id="logInOut" class="sqs-button-element--primary" onclick="logOutUser()">Log in</button>
+    -->
+</div>
+<p></p>
+
+<div class="sticky" id="userSection" style="display: none;">
+    <strong> User Information </strong>
+    <br>
+    <small id="userLoggedIn">No user logged in</small>
+    <br>
+    <button id="logInOut" class="tinyButton" onclick="logOutUser()">Log in/Register</button>
+    <button id="deleteAccount" class="tinyButton" onclick="popupVerficationDeleteAccount()" style="display: none;">Delete Account</button>
+</div>
+
+ <!-- Popup and overlay elements -->
+ <div class="overlay" id="overlay"></div>
+ <div class="popup" id="popup">
+     <div id="popupContent">
+         <!-- Content will be populated here -->
+     </div>
+    </div>
+   
+<!-- JavaScript code -->
+<script>
+    src=""
+</script>
+</body>
