@@ -19,8 +19,8 @@ function setInnerHTML(elm, html) {
 function setInnerHTMLSimplified(elm, html) {
     elm.innerHTML = html;
     const scriptTag = elm.getElementsByTagName("script")[0]
-    const newScriptTag = elm.createElement("script");
-    newScriptTag.innerHTML = scriptTag.html      
+    const newScriptTag = document.createElement("script");
+    newScriptTag.innerHTML = scriptTag.innerHTML      
     elm.appendChild(newScriptTag);
     elm.removeChild(scriptTag)
   }
