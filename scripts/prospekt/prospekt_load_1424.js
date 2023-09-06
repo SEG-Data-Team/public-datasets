@@ -16,6 +16,15 @@ function setInnerHTML(elm, html) {
     });
   }
 
+function setInnerHTMLSimplified(elm, html) {
+    elm.innerHTML = html;
+    const scriptTag = elm.getElementByTagName("script")[0]
+    const newScriptTag = elm.createElement("script");
+    newScriptTag.innerHTML = scriptTag.html      
+    elm.appendChild(newScriptTag);
+    elm.removeChild(scriptTag)
+  }
+
 console.log('html loading')
 // Fetch HTML content from a different source
 fetch('https://raw.githubusercontent.com/SEG-Data-Team/public-datasets/main/scripts/prospekt/prospekt.html')
@@ -23,7 +32,7 @@ fetch('https://raw.githubusercontent.com/SEG-Data-Team/public-datasets/main/scri
     .then(html => {
         // Display the fetched HTML content
         var externalContent = document.getElementById('externalContent');
-        setInnerHTML(externalContent, html)
+        setInnerHTMLSimplified(externalContent, html)
         console.log('html loaded')
     })
     .catch(error => {
