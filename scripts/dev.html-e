@@ -292,6 +292,8 @@ select::after {
         </select>
     </div>
 
+    <p><span class="brsmall"></span></p>
+
     <div id="input-container" class="file-input-container">
         <button class="sqs-button-element--primary" id="button-rem-file" style="display: none;" onclick="removeFile()">Remove Files</button>
         <label id="button-add-file" style="display: block;" for="file-upload"><button class="sqs-button-element--primary" style="pointer-events: none;">Add Files</button></label>
@@ -336,4 +338,4 @@ select::after {
         /* script placeholder*/
     </script>
 </body>
-<p hidden id=version_date>Wed 15 Nov 2023 10:08:47 UTC</p>
+<p hidden id=version_date>Wed 15 Nov 2023 11:16:37 UTC</p>
