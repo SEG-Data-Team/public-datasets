@@ -305,7 +305,7 @@ select::after {
     <br>
     <br>
     <div>
-        <b>Processing consent</b>
+        <p>Processing consent</p>
         <div class="multiselect-container" id="seniorityMultiselect">
             <label><input type="checkbox" id="consent-tc-pp"> <small>I have read and accept the <a href="https://www.stubbenedge.com/terms-of-use/" target="_blank" class="link-style">Terms of Use</a> and <a href="https://www.stubbenedge.com/privacy-policy/" target="_blank" class="link-style">Privacy Policy</a></small></label>
             <label><input type="checkbox" id="consent-summary"> <small>I hereby consent to Stubben Edge Labs processing my bank statement for the purpose of creating a standardised report for my personal use.</small></label>
@@ -335,4 +335,4 @@ select::after {
         /* script placeholder*/
     </script>
 </body>
-<p hidden id=version_date>Wed 15 Nov 2023 11:33:18 UTC</p>
+<p hidden id=version_date>Wed 15 Nov 2023 15:56:35 UTC</p>
