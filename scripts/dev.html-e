@@ -1,0 +1,339 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<head>
+    <style>       
+    /* style placeholder */
+/* Styling for the popup */
+.popup {
+    display: none;
+    max-width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+}
+
+.button-container {
+    display: flex; /* Use flex display to make the buttons sit next to each other */
+    justify-content: space-between; /* Space them evenly within the container */
+}
+
+
+/* Styles for the container and checkboxes */
+/*.multiselect-container {
+    display: inline-block;
+    padding: 1px;
+    border-radius: 1px;
+}
+
+.multiselect-container label {
+    display: block;
+    margin-bottom: 5px;
+}*/
+
+/* Styles for the tags container and individual tags */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+ .tag {
+    background-color: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.tag span {
+    margin-right: 5px;
+}
+
+.tag .remove-tag {
+    cursor: pointer;
+    font-weight: light;
+    color: black;
+}
+
+/* Styles for financial metrics */
+.custom-form {
+    max-width: 300px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-left: 0; /* Adjust the margin-left value as needed */
+}
+
+.popup-form {
+    background-color: #fff;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    margin-left: 0; /* Adjust the margin-left value as needed */
+}
+
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="number"],
+input[type="checkbox"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    width: 25%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+option {
+    font-size: 12px;
+}
+
+/* Styling the arrow icon (optional) */
+select::-ms-expand {
+    display: none;
+}
+
+select::after {
+    content: "▼";
+    font-size: 12px;
+    padding-left: 5px;
+}
+
+/* Styles for the search bar and dropdown */
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+
+.search-input {
+    width: 200px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-list {
+    position: relative;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none;
+    max-height: 150px;
+    overflow-y: auto; /* Added scrollable behavior */
+    border-radius: 0 0 5px 5px;
+}
+
+.search-list div {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.multiselect-container {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.multiselect-container label {
+    display: block;
+    margin-bottom: 5px;
+}   
+
+.link-style {
+    color: #2e95de; /* Apply the desired hyperlink color */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+}
+
+/*loader styling*/
+.loader {
+    margin: auto;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #2e95de; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*user info styling*/
+.sticky {
+    position: fixed;
+    right: 10px;
+    top: 100px;
+    background: white;
+    text-align:right
+}
+
+.tinyButton {
+    background-color:#2e95de;
+    border-radius: 16px;
+    border:none;
+    text-align:center;
+    font-size:14px;
+    color:#ffffff;
+    padding:5px;
+    margin:6px 0px;
+}
+
+/*financials labels*/
+.fromToLabel {
+    display: inline-block;
+}
+
+.fromToLabelNulls {
+    display: block;
+    white-space: nowrap;
+}
+
+/*user warning*/
+.userWarning {
+    display: none;
+    color: red;
+}
+
+/*small line breaks*/
+.brsmall {
+    display: block;
+    margin-bottom: -.2em;
+}
+  
+.brxsmall {
+    display: block;
+    margin-bottom: -.4em;
+}
+
+.file-input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.file-name-display {
+    padding-left: 10px;
+}
+    </style>
+</head>
+
+<body>
+    <div>
+        <strong>
+            <label for="selectOption">Firstly, who do you bank with?</label>
+        </strong>
+        <p><span class="brsmall"></span></p>
+        <select id="selectOptionBanks" name="selectOption">
+            <option value="Both">Full Dataset</option>
+            <option value="Companies">Companies</option>
+            <option value="Officers & Employees">Officers & Employees</option>
+        </select>
+    </div>
+
+    <div id="input-container" class="file-input-container">
+        <button class="sqs-button-element--primary" id="button-rem-file" style="display: none;" onclick="removeFile()">Remove Files</button>
+        <label id="button-add-file" style="display: block;" for="file-upload"><button class="sqs-button-element--primary" style="pointer-events: none;">Add Files</button></label>
+        <div id="file-name" class="file-name-display"> Up to 3 PDFs of less than 5MB each </div>
+        <input id="file-upload" type="file" style="display: none;" onchange="checkFile()" multiple>
+    </div>
+    <div id="error-checks">
+        <small id="errors-size" style="display: none; color:red"></small>
+        <small id="errors-types" style="display: none; color:red"></small>
+        <small id="errors-count" style="display: none; color:red"></small>
+    </div>
+    <br>
+    <br>
+    <div>
+        <b>Processing consent</b>
+        <div class="multiselect-container" id="seniorityMultiselect">
+            <label><input type="checkbox" id="consent-tc-pp"> <small>I have read and accept the <a href="https://www.stubbenedge.com/terms-of-use/" target="_blank" class="link-style">Terms of Use</a> and <a href="https://www.stubbenedge.com/privacy-policy/" target="_blank" class="link-style">Privacy Policy</a></small></label>
+            <label><input type="checkbox" id="consent-summary"> <small>I hereby consent to Stubben Edge Labs processing my bank statement for the purpose of creating a standardised report for my personal use.</small></label>
+            <!--
+            <label><input type="checkbox" id="consent-storage"> I hereby consent to Stubben Edge Labs storing my transactional behaviour for the purpose of improving the reporting model.</label>
+            -->
+        </div>
+    </div>
+    <br>
+    <div>
+        <button onclick="uploadPDF(routeValidation)" class="sqs-button-element--primary">Submit</button>
+        <small id="check-file-select" style="display: none; color:red">* Please select a file to continue. *</small>
+        <small id="check-tick-boxes" style="display: none; color:red">* Please check both boxes to continue *</small>
+    </div>
+
+    
+<!-- Pverlay and pop-up -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <div id="popupContent">
+            <!-- Content will be populated here -->
+        </div>
+    </div>
+
+<!-- JavaScript code -->
+    <script>
+        /* script placeholder*/
+    </script>
+</body>
+<p hidden id=version_date>Wed 15 Nov 2023 10:08:47 UTC</p>
