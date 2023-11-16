@@ -830,7 +830,11 @@ async function start_session() {
                 // now we want to proceed to the submit file for validation stage
                 uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
-                populateLoginPage();
+                // populateLoginPage()
+                // populateLoginPage references an unknown function. This error is everywhere. 
+                // quick fix is to redirect user to the login page
+
+                window.location.replace("www.stubbenedgelabs.com/login-user");
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
@@ -978,4 +982,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Thu 16 Nov 2023 15:06:00 UTC</p>
+<p hidden id=version_date>Thu 16 Nov 2023 15:32:34 UTC</p>
