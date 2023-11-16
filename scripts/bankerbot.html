@@ -787,7 +787,8 @@ async function uploadPDF(route) {
                     popupValidation(result);
                 }
             } else if (xhr.status == 401) {
-                populateLoginPage();
+                //populateLoginPage();
+                window.location.replace("www.stubbenedgelabs.com/login-user");
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
@@ -982,4 +983,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Thu 16 Nov 2023 15:45:06 UTC</p>
+<p hidden id=version_date>Thu 16 Nov 2023 15:57:09 UTC</p>
