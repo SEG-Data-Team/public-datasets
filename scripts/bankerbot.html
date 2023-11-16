@@ -739,6 +739,7 @@ function confirmCount () {
 
 const routeValidation = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_v';
 const routeMain = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_m';
+const routeSession = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_s';
 
 async function uploadPDF(route) {
     
@@ -802,6 +803,49 @@ async function uploadPDF(route) {
     xhr.send(formData);
 }
 
+async function start_session() {
+    var formData = new FormData();
+    formData.append('bank_name', encodeURIComponent(document.getElementById('selectOptionBanks').value));
+
+    //upload file
+    const popupContent = document.getElementById('popupContent');
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+    
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+    popupContent.innerHTML = loader_html
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status === 200) {
+                // we just submitted the bank name
+                // now we want to proceed to the submit file for validation stage
+                uploadPDF(routeValidation)
+            } else if (xhr.status == 401) {
+                populateLoginPage();
+            } else if (xhr.status in defaultResponses) {
+                popupContent.innerHTML = defaultResponses[xhr.status]; 
+            } else {
+                popupContent.innerHTML = defaultResponses[999];
+            }
+            popupContent.appendChild(closeButton)
+        }
+    }
+  
+    xhr.withCredentials = true;
+    xhr.open('POST', routeSession);
+    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
+    xhr.send(formData);
+
+}
 
 function checkFile() {
     var fileInput = document.getElementById('file-upload');
@@ -865,7 +909,8 @@ function popupValidation(results) {
     noButton.style.margin = '10px';
     noButton.textContent = 'No';
     noButton.onclick = async function() {
-        popupContent.innerHTML = "Unfortunately, we were unable to process your provided input. We are working to improve our model and hope to serve you better in the future.";
+        // add to post to an endpoint that records when a user says no
+        popupContent.innerHTML = "Unfortunately our process does not support your bank at the moment. We apologise for the inconvenience and hope to serve you better in the future.";
     };
 
     const yesButton = document.createElement('button');
@@ -924,68 +969,6 @@ async function populateBankOptions() {
 } 
 populateBankOptions()
 
-async function uploadPDF(route) {
-    
-    var check1 = await confirmConsent()
-    var check2 = await confirmFile()
-    var check3 = await confirmCount()
-    var check4 = await confirmTypes()
-    var check5 = await confirmSizes()
-
-    if (check1 || check2 || check3 || check4 || check5) {
-      return
-    }
-  
-    //upload file
-    const popupContent = document.getElementById('popupContent');
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-    
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-
-    overlay.style.display = 'block';
-    popup.style.display = 'block';
-    popupContent.innerHTML = loader_html
-
-    var fileInput = document.getElementById('file-upload');
-    var files = fileInput.files;
-    var formData = new FormData();
-    for (var i = 0; i < files.length; i++) {
-        formData.append('pdf', files[i]);
-    }
-
-    formData.append('bank_name', encodeURIComponent(document.getElementById('selectOptionBanks').value));
-   
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status === 200) {
-                if (route==routeMain) {
-                    popupContent.innerHTML = "File uploaded successfully. Please check your email for your results."
-                } else if (route==routeValidation) {
-                    const result = JSON.parse(xhr.responseText);
-                    popupValidation(result);
-                }
-            } else if (xhr.status == 401) {
-                populateLoginPage();
-            } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = defaultResponses[xhr.status]; 
-            } else {
-                popupContent.innerHTML = defaultResponses[999];
-            }
-            popupContent.appendChild(closeButton)
-        }
-    }
-    
-    xhr.withCredentials = true;
-    xhr.open('POST', route);
-    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
-    xhr.send(formData);
-}
     </script>
 </body>
-<p hidden id=version_date>Wed 15 Nov 2023 16:23:35 UTC</p>
+<p hidden id=version_date>Thu 16 Nov 2023 14:50:04 UTC</p>
