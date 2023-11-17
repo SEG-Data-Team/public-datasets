@@ -809,14 +809,10 @@ async function postEvent(data) {
     xhr.withCredentials = true;
     xhr.open('POST', routeEvent);
     xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
-    xhr.send(data);
+    xhr.send(xhr.send(JSON.stringify(data)));
 }
 
 async function start_session() {
-    var formData = new FormData();
-    formData.append('bank_name', encodeURIComponent(document.getElementById('selectOptionBanks').value));
-
-    //upload file
     const popupContent = document.getElementById('popupContent');
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
@@ -830,6 +826,11 @@ async function start_session() {
     overlay.style.display = 'block';
     popup.style.display = 'block';
     popupContent.innerHTML = loader_html
+
+    // submit bank name as a query parameter
+    var url = routeSession
+    url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
+
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -996,4 +997,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 17 Nov 2023 14:31:00 UTC</p>
+<p hidden id=version_date>Fri 17 Nov 2023 15:41:39 UTC</p>
