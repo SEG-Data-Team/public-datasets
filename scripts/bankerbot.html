@@ -740,6 +740,7 @@ function confirmCount () {
 const routeValidation = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_v';
 const routeMain = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_m';
 const routeSession = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_s';
+const routeEvent = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_e';
 
 async function uploadPDF(route) {
     
@@ -752,7 +753,6 @@ async function uploadPDF(route) {
     if (check1 || check2 || check3 || check4 || check5) {
         return
     }
-
   
     //upload file
     const popupContent = document.getElementById('popupContent');
@@ -802,6 +802,14 @@ async function uploadPDF(route) {
     xhr.open('POST', route);
     xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
     xhr.send(formData);
+}
+
+async function postEvent(data) {
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.open('POST', routeEvent);
+    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
+    xhr.send(data);
 }
 
 async function start_session() {
@@ -915,6 +923,11 @@ function popupValidation(results) {
     noButton.onclick = async function() {
         // add to post to an endpoint that records when a user says no
         popupContent.innerHTML = "Unfortunately our process does not support your bank at the moment. We apologise for the inconvenience and hope to serve you better in the future.";
+        popupContent.appendChild(closeButton)
+        postEvent({
+            "event_name":"parsed_balances_incorrect",
+            "event_type":"user_frontend_input",
+        })
     };
 
     const yesButton = document.createElement('button');
@@ -983,4 +996,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Thu 16 Nov 2023 16:01:01 UTC</p>
+<p hidden id=version_date>Fri 17 Nov 2023 14:31:00 UTC</p>
