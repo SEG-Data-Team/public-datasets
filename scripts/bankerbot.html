@@ -856,7 +856,7 @@ async function start_session() {
     xhr.withCredentials = true;
     xhr.open('POST', routeSession);
     xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
-    xhr.send(formData);
+    xhr.send();
 
 }
 
@@ -1000,4 +1000,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Mon 20 Nov 2023 14:05:14 UTC</p>
+<p hidden id=version_date>Mon 20 Nov 2023 14:07:17 UTC</p>
