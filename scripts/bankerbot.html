@@ -828,7 +828,7 @@ async function start_session() {
     popupContent.innerHTML = loader_html
 
     // submit bank name as a query parameter
-    var url = routeSession
+    const url = routeSession
     url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
 
 
@@ -1001,4 +1001,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Mon 20 Nov 2023 13:55:28 UTC</p>
+<p hidden id=version_date>Mon 20 Nov 2023 14:00:29 UTC</p>
