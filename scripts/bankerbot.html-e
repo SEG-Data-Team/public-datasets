@@ -316,7 +316,7 @@ select::after {
     </div>
     <p></p>
     <div>
-        <button onclick="uploadPDF(routeValidation)" class="sqs-button-element--primary">Submit</button>
+        <button onclick="start_session()" class="sqs-button-element--primary">Submit</button>
         <small id="check-file-select" style="display: none; color:red">* Please select a file to continue. *</small>
         <small id="check-tick-boxes" style="display: none; color:red">* Please check both boxes to continue *</small>
     </div>
@@ -335,4 +335,4 @@ select::after {
         /* script placeholder*/
     </script>
 </body>
-<p hidden id=version_date>Fri 17 Nov 2023 15:41:39 UTC</p>
+<p hidden id=version_date>Mon 20 Nov 2023 13:55:28 UTC</p>
