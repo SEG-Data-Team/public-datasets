@@ -789,6 +789,8 @@ async function uploadPDF(route) {
             } else if (xhr.status == 401) {
                 //populateLoginPage();
                 window.location.replace("login-user");
+            } else if (xhr.status == 202) {
+                popupContent.innerHTML = "File uploaded successfully. Please check your email for your results."
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
@@ -1000,4 +1002,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Mon 20 Nov 2023 14:16:49 UTC</p>
+<p hidden id=version_date>Tue 21 Nov 2023 11:32:02 UTC</p>
