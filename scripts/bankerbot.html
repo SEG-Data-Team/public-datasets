@@ -811,7 +811,7 @@ async function postEvent(data) {
     var xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
     xhr.open('POST', routeEvent);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
     xhr.send(xhr.send(JSON.stringify(data)));
 }
@@ -1004,4 +1004,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Thu 23 Nov 2023 15:21:20 UTC</p>
+<p hidden id=version_date>Thu 23 Nov 2023 15:27:44 UTC</p>
