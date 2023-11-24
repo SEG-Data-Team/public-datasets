@@ -838,15 +838,22 @@ async function start_session() {
     const url = new URL(routeSession);
     url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
 
+    const LOGIN_FLAG = false
+
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status === 200) {
                 // we just submitted the bank name
                 // now we want to proceed to the submit file for validation stage
-                uploadPDF(routeValidation)
+                if (LOGIN_FLAG == false) {
+                    uploadPDF(routeValidation)
+                }
+                    
             } else if (xhr.status == 401) {
                 populateLoginPage()
+                xhr.abort()
+                LOGIN_FLAG = true
                 //window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status];
@@ -1264,4 +1271,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 15:41:53 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 15:48:14 UTC</p>
