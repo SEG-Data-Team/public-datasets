@@ -742,7 +742,7 @@ const routeMain = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_m';
 const routeSession = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_s';
 const routeEvent = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_e';
 
-async function uploadPDF(route) {
+async function uploadPDF(route, flag) {
     
     var check1 = await confirmConsent()
     var check2 = await confirmFile()
@@ -793,7 +793,7 @@ async function uploadPDF(route) {
             } else if (xhr.status == 202) {
                 popupContent.innerHTML = "File uploaded successfully. Please check your email for your results."
             } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = "error in uploadPDF"; 
+                popupContent.innerHTML = flag; 
                 //popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
                 popupContent.innerHTML = "error in uploadPDF unknown"; 
@@ -847,13 +847,13 @@ async function start_session() {
                 // we just submitted the bank name
                 // now we want to proceed to the submit file for validation stage
                 if (LOGIN_FLAG == false) {
-                    uploadPDF(routeValidation)
+                    uploadPDF(routeValidation, flag)
                 }
                     
             } else if (xhr.status == 401) {
                 populateLoginPage()
-                xhr.abort()
                 LOGIN_FLAG = true
+                return;
                 //window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status];
@@ -1038,11 +1038,9 @@ function loginUser(email, password) {
             } else if (xhr.status == 420) {
                 popupVerficationEmail(email.toLowerCase(),password)
             } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = "error is in loginUser"
-                //popupContent.innerHTML = defaultResponses[xhr.status]; 
+                popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
-                //popupContent.innerHTML = defaultResponses[999]; 
-                popupContent.innerHTML = "999"
+                popupContent.innerHTML = defaultResponses[999]; 
             }
         }
     }
@@ -1271,4 +1269,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 15:52:22 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 16:00:29 UTC</p>
