@@ -742,7 +742,7 @@ const routeMain = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_m';
 const routeSession = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_s';
 const routeEvent = 'https://prospect-gateway-a9jtfdvq.nw.gateway.dev/bb_e';
 
-async function uploadPDF(route, flag) {
+async function uploadPDF(route) {
     
     var check1 = await confirmConsent()
     var check2 = await confirmFile()
@@ -793,11 +793,9 @@ async function uploadPDF(route, flag) {
             } else if (xhr.status == 202) {
                 popupContent.innerHTML = "File uploaded successfully. Please check your email for your results."
             } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = "flag: " + flag; 
-                //popupContent.innerHTML = defaultResponses[xhr.status]; 
+                popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
-                popupContent.innerHTML = "error in uploadPDF unknown"; 
-                //popupContent.innerHTML = defaultResponses[999];
+                popupContent.innerHTML = defaultResponses[999];
             }
             popupContent.appendChild(closeButton)
         }
@@ -844,7 +842,7 @@ function start_session() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status === 200 && LOGIN_FLAG == false) {
-                uploadPDF(routeValidation, LOGIN_FLAG)
+                uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
                 populateLoginPage();
                 LOGIN_FLAG = true;
@@ -1264,4 +1262,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 16:40:16 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 16:44:12 UTC</p>
