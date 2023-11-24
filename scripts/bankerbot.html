@@ -788,6 +788,7 @@ async function uploadPDF(route) {
                 }
             } else if (xhr.status == 401) {
                 populateLoginPage();
+                xhr.abort()
                 //window.location.replace("login-user");
             } else if (xhr.status == 202) {
                 popupContent.innerHTML = "File uploaded successfully. Please check your email for your results."
@@ -795,6 +796,7 @@ async function uploadPDF(route) {
                 popupContent.innerHTML = "error in uploadPDF"; 
                 //popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
+                popupContent.innerHTML = "error in uploadPDF unknown"; 
                 //popupContent.innerHTML = defaultResponses[999];
             }
             popupContent.appendChild(closeButton)
@@ -845,6 +847,7 @@ async function start_session() {
                 uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
                 populateLoginPage()
+                xhr.abort()
                 return ''
                 //window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
@@ -1262,4 +1265,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 15:20:14 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 15:26:31 UTC</p>
