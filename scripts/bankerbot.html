@@ -843,12 +843,12 @@ async function start_session() {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            if (xhr.status === 200) {
+            if (xhr.status === 200 && LOGIN_FLAG == false) {
+                console.log("LOGIN_FLAG before uploadPDF:", LOGIN_FLAG);
                 // we just submitted the bank name
                 // now we want to proceed to the submit file for validation stage
-                if (LOGIN_FLAG == false) {
-                    uploadPDF(routeValidation, LOGIN_FLAG)
-                }
+                uploadPDF(routeValidation, LOGIN_FLAG)
+                
             } else if (xhr.status == 401) {
                 populateLoginPage();
                 LOGIN_FLAG = true;
@@ -1268,4 +1268,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 16:29:28 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 16:37:17 UTC</p>
