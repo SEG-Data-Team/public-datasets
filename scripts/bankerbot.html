@@ -842,9 +842,9 @@ async function start_session() {
                 // we just submitted the bank name
                 // now we want to proceed to the submit file for validation stage
                 uploadPDF(routeValidation)
-                return
             } else if (xhr.status == 401) {
                 populateLoginPage()
+                return ''
                 //window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
@@ -1259,4 +1259,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 14:45:55 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 15:02:30 UTC</p>
