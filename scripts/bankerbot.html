@@ -849,7 +849,7 @@ async function start_session() {
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
-                popupContent.innerHTML = defaultResponses[999];
+                popupContent.innerHTML = xhr.status;
             }
             popupContent.appendChild(closeButton)
         }
@@ -1259,4 +1259,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 15:02:30 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 15:07:11 UTC</p>
