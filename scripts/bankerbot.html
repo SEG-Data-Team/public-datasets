@@ -847,11 +847,9 @@ async function start_session() {
                 uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
                 populateLoginPage()
-                xhr.abort()
-                return ''
                 //window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = "error here"; 
+                popupContent.innerHTML = defaultResponses[xhr.status];
             } else {
                 popupContent.innerHTML = defaultResponses[999];
             }
@@ -1027,6 +1025,7 @@ function loginUser(email, password) {
             }
             if (xhr.status == 200) {
                 setHeaderElementLogin(headerLoginVersion)
+                closePopup()
             } else if (xhr.status == 401) {
                 popupContent.innerHTML = 'This user and/or password combination does not exist.';  
             } else if (xhr.status == 420) {
@@ -1265,4 +1264,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 15:26:31 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 15:41:53 UTC</p>
