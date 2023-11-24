@@ -851,7 +851,7 @@ async function start_session() {
         if (response.ok) {
             const result = await response.json();
             if (LOGIN_FLAG === false) {
-                await uploadPDF(routeValidation, LOGIN_FLAG, result);
+                await uploadPDF(routeValidation);
             }
         } else if (response.status === 401) {
             populateLoginPage();
@@ -1315,4 +1315,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 16:55:33 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 16:58:32 UTC</p>
