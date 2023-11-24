@@ -852,7 +852,6 @@ async function start_session() {
             } else if (xhr.status == 401) {
                 populateLoginPage();
                 LOGIN_FLAG.value = true;
-                closePopup()
                 return;
                 //window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
@@ -1269,4 +1268,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 16:20:31 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 16:22:55 UTC</p>
