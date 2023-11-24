@@ -821,59 +821,6 @@ async function start_session() {
     const popupContent = document.getElementById('popupContent');
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
-
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-
-    overlay.style.display = 'block';
-    popup.style.display = 'block';
-    popupContent.innerHTML = loader_html;
-
-    // submit bank name as a query parameter
-    const url = new URL(routeSession);
-    url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
-
-    let LOGIN_FLAG = false;
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Prospekt': deviceFingerPrint,
-            },
-            credentials: 'include',
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            if (LOGIN_FLAG === false) {
-                await uploadPDF(routeValidation);
-            }
-        } else if (response.status === 401) {
-            populateLoginPage();
-            LOGIN_FLAG = true;
-            return;
-        } else if (response.status in defaultResponses) {
-            popupContent.innerHTML = defaultResponses[response.status];
-        } else {
-            popupContent.innerHTML = defaultResponses[999];
-        }
-
-        popupContent.appendChild(closeButton);
-    } catch (error) {
-        console.error('An error occurred:', error);
-        // Handle the error as needed
-    }
-}
-
-async function start_session_old() {
-    const popupContent = document.getElementById('popupContent');
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
     
     const closeButton = document.createElement('button');
     closeButton.id = 'closeButton';
@@ -1315,4 +1262,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 16:58:32 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 17:16:06 UTC</p>
