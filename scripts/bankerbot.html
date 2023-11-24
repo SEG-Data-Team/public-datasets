@@ -838,7 +838,7 @@ async function start_session() {
     const url = new URL(routeSession);
     url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
 
-    const LOGIN_FLAG = { value: false };
+    var LOGIN_FLAG = { value: false };
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -1268,4 +1268,4 @@ populateBankOptions()
 
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 16:22:55 UTC</p>
+<p hidden id=version_date>Fri 24 Nov 2023 16:25:32 UTC</p>
