@@ -816,7 +816,16 @@ async function postEvent(data) {
     xhr.send(xhr.send(JSON.stringify(data)));
 }
 
+// have start session first check if logged in
+
 async function start_session() {
+    var userLoginStatus = await isUserLoggedIn()
+
+    if (userLoginStatus == false) {
+        populateLoginPage();
+        return;
+    }
+
     const popupContent = document.getElementById('popupContent');
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
@@ -841,8 +850,8 @@ async function start_session() {
             if (xhr.status === 200) {
                 uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
-                populateLoginPage()
-                //window.location.replace("login-user");
+                //populateLoginPage()
+                window.location.replace("login-user");
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
@@ -1255,4 +1264,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Fri 24 Nov 2023 17:23:58 UTC</p>
+<p hidden id=version_date>Mon 27 Nov 2023 15:14:24 UTC</p>
