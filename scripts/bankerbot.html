@@ -837,13 +837,13 @@ async function start_session() {
         // calling an async function
         var userLoginStatus = await isUserLoggedIn();
 
-        if (userLoginStatus === false) {
-            console.log('no user logged in');
-            populateLoginPage();
-        } else {
+        if (userLoginStatus != false) {
             console.log('continue session');
             // calling an async function
             await continue_session();
+        } else {
+            console.log('no user logged in');
+            populateLoginPage();
         }
     } catch (error) {
         console.error('Error:', error);
@@ -1290,4 +1290,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Mon 27 Nov 2023 16:32:39 UTC</p>
+<p hidden id=version_date>Mon 27 Nov 2023 16:48:20 UTC</p>
