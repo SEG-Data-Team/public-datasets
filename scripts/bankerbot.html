@@ -839,32 +839,52 @@ async function start_session() {
         console.log('no user logged in');
         populateLoginPage();
     } else {
-        // submit bank name as a query parameter
-        const url = new URL(routeSession);
-        url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                if (xhr.status === 200) {
-                    uploadPDF(routeValidation)
-                } else if (xhr.status == 401) {
-                    //populateLoginPage()
-                    window.location.replace("login-user");
-                } else if (xhr.status in defaultResponses) {
-                    popupContent.innerHTML = defaultResponses[xhr.status]; 
-                } else {
-                    popupContent.innerHTML = defaultResponses[999];
-                }
-                popupContent.appendChild(closeButton)
-            }
-        }
-    
-        xhr.withCredentials = true;
-        xhr.open('POST', url);
-        xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
-        xhr.send();
+        continue_session()
     }
+
+}
+
+async function continue_session() {
+    const popupContent = document.getElementById('popupContent');
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+    
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+    popupContent.innerHTML = loader_html
+    
+    // submit bank name as a query parameter
+    const url = new URL(routeSession);
+    url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && userLoginStatus != false) {
+            if (xhr.status === 200) {
+                uploadPDF(routeValidation)
+            } else if (xhr.status == 401) {
+                //populateLoginPage()
+                window.location.replace("login-user");
+            } else if (xhr.status in defaultResponses) {
+                popupContent.innerHTML = defaultResponses[xhr.status]; 
+            } else {
+                popupContent.innerHTML = defaultResponses[999];
+            }
+            popupContent.appendChild(closeButton)
+        }
+    }
+
+    xhr.withCredentials = true;
+    xhr.open('POST', url);
+    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
+    xhr.send();
+
 
 }
 
@@ -1264,4 +1284,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Mon 27 Nov 2023 15:49:48 UTC</p>
+<p hidden id=version_date>Mon 27 Nov 2023 16:04:22 UTC</p>
