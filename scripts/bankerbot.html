@@ -819,26 +819,26 @@ async function postEvent(data) {
 // have start session first check if logged in
 
 async function start_session() {
+    const popupContent = document.getElementById('popupContent');
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+    
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+    popupContent.innerHTML = loader_html
+
     var userLoginStatus = await isUserLoggedIn()
 
     if (userLoginStatus == false) {
         console.log('no user logged in');
         populateLoginPage();
     } else {
-        const popupContent = document.getElementById('popupContent');
-        const popup = document.getElementById('popup');
-        const overlay = document.getElementById('overlay');
-        
-        const closeButton = document.createElement('button');
-        closeButton.id = 'closeButton';
-        closeButton.className = 'close-button';
-        closeButton.textContent = 'x';
-        closeButton.addEventListener('click', closePopup);
-
-        overlay.style.display = 'block';
-        popup.style.display = 'block';
-        popupContent.innerHTML = loader_html
-
         // submit bank name as a query parameter
         const url = new URL(routeSession);
         url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
@@ -1264,4 +1264,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Mon 27 Nov 2023 15:40:13 UTC</p>
+<p hidden id=version_date>Mon 27 Nov 2023 15:46:47 UTC</p>
