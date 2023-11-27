@@ -840,12 +840,13 @@ async function start_session() {
         populateLoginPage();
     } else {
         console.log('continue session');
-        //continue_session()
+        continue_session()
     }
 
 }
 
 function continue_session() {
+    console.log('session continued');
     const popupContent = document.getElementById('popupContent');
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
@@ -1284,4 +1285,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Mon 27 Nov 2023 16:19:51 UTC</p>
+<p hidden id=version_date>Mon 27 Nov 2023 16:24:43 UTC</p>
