@@ -636,6 +636,261 @@ function validatePassword(password) {
     }
     return true;
 }
+
+function loginUser(email, password) {
+    const popupContent = document.getElementById('popupContent');
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+    
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+    
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+    popupContent.innerHTML = loader_html
+    
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = async function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status != 200) {
+                popupContent.innerHTML = '' //Clear any previous content
+                popupContent.appendChild(closeButton)
+            }
+            if (xhr.status == 200) {
+                setHeaderElementLogin(headerLoginVersion)
+            } else if (xhr.status == 401) {
+                popupContent.innerHTML = 'This user and/or password combination does not exist.';  
+            } else if (xhr.status == 420) {
+                popupVerficationEmail(email.toLowerCase(),password)
+            } else if (xhr.status in defaultResponses) {
+                popupContent.innerHTML = defaultResponses[xhr.status]; 
+            } else {
+                popupContent.innerHTML = defaultResponses[999];
+            }
+        }
+    }
+    
+    xhr.withCredentials = true;
+    xhr.open("POST", "https://prospect-gateway-a9jtfdvq.nw.gateway.dev/l0g_yuz4_1n", false);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
+    xhr.send(JSON.stringify({"email_address": email.toLowerCase(), "password": password }));  
+}
+
+function populateLoginPage() {
+    const popupContainer = document.getElementById('popupContent')
+    popupContainer.innerHTML='';
+
+    // Close button
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+
+    const headlineSummary = document.createElement('h4');
+    headlineSummary.textContent = "Login" 
+
+    const subtitle = document.createElement('p');
+    subtitle.innerHTML = 'Welcome Back! Please sign in to access the results of your query.';
+
+    const redirectSignup = document.createElement('p');
+    redirectSignup.innerHTML = "Don't have an account? <a id='signupLink' class='link-style'>Sign up for free here</a>";
+    redirectSignup.addEventListener('click', function () {
+        window.location.href = "https://www.stubbenedgelabs.com/sign-up";
+    });
+
+    const tsandcs = document.createElement('div');
+    tsandcs.style.display = 'block';
+    tsandcs.innerHTML = '<small>By signing in, you agree to our ' +
+        '<a href="https://www.stubbenedge.com/terms-of-use/" target="_blank" class="link-style">Terms of Use</a>, our ' +
+        '<a href="https://www.stubbenedge.com/privacy-policy/" target="_blank" class="link-style">Privacy Policy</a>, ' +
+        'and our ' +
+        '<a href="https://prospekt-docs.s3.eu-west-1.amazonaws.com/MARKET_DATA_SUPPLY_AGREEMENT_PROSPEKT.pdf" target="_blank" class="link-style">Market Data Supply Agreement.</a></small>';
+
+     // User login form
+    const loginForm = document.createElement('form');
+    loginForm.className = "popup-form"
+
+    const emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.style.width = '95%';
+    emailInput.placeholder = 'Email';
+    emailInput.required = true;
+
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'password';
+    passwordInput.style.width = '95%';
+    passwordInput.placeholder = 'Password';
+    passwordInput.required = true;
+
+    // Toggle button for showing/hiding password
+    const togglePasswordButton1 = document.createElement('button');
+    const eyeIcon1 = document.createElement('i');
+    eyeIcon1.classList.add('fas', 'fa-eye'); // Font Awesome classes for the eye icon
+    togglePasswordButton1.appendChild(eyeIcon1); // Add the icon to the button
+    togglePasswordButton1.style = "margin-left: -40px; cursor: pointer; border: none; background-color: transparent;"
+    togglePasswordButton1.className = 'password-toggle-button';
+    togglePasswordButton1.type = 'button';
+    togglePasswordButton1.addEventListener('click', function() {
+        togglePasswordVisibility(passwordInput);
+    });
+
+    const passwordContainer = document.createElement('div');
+    passwordContainer.style.width = '100%'
+    passwordContainer.appendChild(passwordInput);
+    passwordContainer.appendChild(togglePasswordButton1); // Add toggle button
+
+    const loginButton = document.createElement('button');
+    loginButton.type = 'button';
+    loginButton.className = 'sqs-button-element--primary';
+    loginButton.style.display = 'block';
+    loginButton.style.width = '95%';
+    loginButton.style.margin = '5px';
+    loginButton.textContent = 'Login';
+
+    const returnMessage = document.createElement('div')
+    returnMessage.id = 'returnMessage'
+    returnMessage.style.color = '#FF6961';
+
+    loginButton.addEventListener('click', async function() {
+        let email = emailInput.value;
+        let password = passwordInput.value;
+
+        // Check if the email, password, and confirm password are provided
+        const isEmailValid = email != ''
+        const isPasswordValid = password != ''
+
+        if (isEmailValid && isPasswordValid) {
+            popupContainer.innerHTML = loader_html
+            await new Promise(r => setTimeout(r, 1000));
+            loginUser(email, password);
+        } else {
+            returnMessage.innerHTML = "Please provide valid inputs"
+        }
+    });    
+
+
+    loginForm.appendChild(emailInput);
+    loginForm.appendChild(passwordContainer);
+    loginForm.appendChild(returnMessage);
+    loginForm.appendChild(loginButton);
+    loginForm.appendChild(tsandcs);
+
+    const forgotPassword = document.createElement('button');
+    forgotPassword.id  = 'forgotPasswordButton'
+    forgotPassword.className = 'sqs-button-element--secondary';
+    forgotPassword.style.display = 'block';
+    forgotPassword.style.width = '95%';
+    forgotPassword.style.margin = '10px';
+    forgotPassword.textContent = 'Forgot password';
+    forgotPassword.addEventListener('click', function () {
+        window.location.href = "https://www.stubbenedgelabs.com/forgot-password"
+    });
+
+    popupContainer.appendChild(closeButton);
+    popupContainer.appendChild(headlineSummary);
+    popupContainer.appendChild(subtitle);
+    popupContainer.appendChild(loginForm);
+    popupContainer.appendChild(forgotPassword);
+    popupContainer.appendChild(redirectSignup);
+}
+
+function closePopup() {
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+    overlay.style.display = 'none';
+    popup.style.display = 'none';
+}
+
+const overlay = document.getElementById('overlay');
+overlay.addEventListener('click', closePopup);    
+
+function popupVerficationEmail(email, password) {
+    const popupContent = document.getElementById('popupContent');
+    const header = document.createElement('h4');
+    header.textContent = "Email Verification" 
+
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+
+    const headlineSummary = document.createElement('p');
+    headlineSummary.textContent = "Resend email verifcation link?" 
+
+    const noButton = document.createElement('button');
+    noButton.id = 'emailVerfNoBtn';
+    noButton.className = 'sqs-button-element--primary';
+    noButton.style.display = 'block';
+    noButton.style.width = '100%';
+    noButton.style.margin = '10px';
+    noButton.textContent = 'No';
+    noButton.addEventListener('click', closePopup);
+
+    const yesButton = document.createElement('button');
+    yesButton.id = 'emailVerfYesBtn';
+    yesButton.className = 'sqs-button-element--primary';
+    yesButton.style.display = 'block';
+    yesButton.style.width = '100%';
+    yesButton.style.margin = '10px';
+    yesButton.textContent = 'Yes';
+    yesButton.onclick = async function() {
+        popupContent.innerHTML = loader_html
+        await new Promise(r => setTimeout(r, 1000));
+        resendEmailVerification(email,password)
+    };
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'button-container'
+    buttonContainer.appendChild(noButton);
+    buttonContainer.appendChild(yesButton);
+
+    popupContent.appendChild(closeButton)
+    popupContent.appendChild(header);
+    popupContent.appendChild(headlineSummary);
+    popupContent.appendChild(buttonContainer)
+}
+
+function resendEmailVerification(email, password) {
+    const popupContent = document.getElementById('popupContent');
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+
+    const closeButton = document.createElement('button');
+    closeButton.id = 'closeButton';
+    closeButton.className = 'close-button';
+    closeButton.textContent = 'x';
+    closeButton.addEventListener('click', closePopup);
+
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+    popupContent.innerHTML = loader_html
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            popupContent.innerHTML = '' // Clear any previous content
+            popupContent.appendChild(closeButton)
+            if (xhr.status == 200) {
+                popupContent.innerHTML = 'Verification link sent. Please check your email for further details.'; 
+            } else if (xhr.status in defaultResponses) {
+                popupContent.innerHTML = defaultResponses[xhr.status]; 
+            } else {
+                popupContent.innerHTML = defaultResponses[999];
+            }
+        } 
+    }
+    xhr.open("POST", "https://prospect-gateway-a9jtfdvq.nw.gateway.dev/r353nd_v3r1fy_3m41l_l1nc", false);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
+    xhr.send(JSON.stringify({"email_address": email, "password": password}));    
+}
 //fingerprint
 
 //isUserLoggedIn
@@ -992,272 +1247,7 @@ async function populateBankOptions() {
     }
 } 
 
-function closePopup() {
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-    overlay.style.display = 'none';
-    popup.style.display = 'none';
-}
-
-
-function loginUser(email, password) {
-    const popupContent = document.getElementById('popupContent');
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-    
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-    
-    overlay.style.display = 'block';
-    popup.style.display = 'block';
-    popupContent.innerHTML = loader_html
-    
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = async function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status != 200) {
-                popupContent.innerHTML = '' //Clear any previous content
-                popupContent.appendChild(closeButton)
-            }
-            if (xhr.status == 200) {
-                popupContent.innerHTML = 'You have successfully logged in. Please submit your request again.' //Clear any previous content
-                setHeaderElementLogin(headerLoginVersion)
-            } else if (xhr.status == 401) {
-                popupContent.innerHTML = 'This user and/or password combination does not exist.';  
-            } else if (xhr.status == 420) {
-                popupVerficationEmail(email.toLowerCase(),password)
-            } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = defaultResponses[xhr.status]; 
-            } else {
-                popupContent.innerHTML = defaultResponses[999];
-            }
-        }
-    }
-    
-    xhr.withCredentials = true;
-    xhr.open("POST", "https://prospect-gateway-a9jtfdvq.nw.gateway.dev/l0g_yuz4_1n", false);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
-    xhr.send(JSON.stringify({"email_address": email.toLowerCase(), "password": password }));  
-}
-
-function populateLoginPage() {
-    const popupContainer = document.getElementById('popupContent')
-    popupContainer.innerHTML='';
-
-    // Close button
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-
-    const headlineSummary = document.createElement('h4');
-    headlineSummary.textContent = "Login" 
-
-    const subtitle = document.createElement('p');
-    subtitle.innerHTML = 'Welcome Back! Please sign in to access the results of your query.';
-
-    const redirectSignup = document.createElement('p');
-    redirectSignup.innerHTML = "Don't have an account? <a id='signupLink' class='link-style'>Sign up for free here</a>";
-    redirectSignup.addEventListener('click', function () {
-        window.location.href = "https://www.stubbenedgelabs.com/sign-up";
-    });
-
-    const tsandcs = document.createElement('div');
-    tsandcs.style.display = 'block';
-    tsandcs.innerHTML = '<small>By signing in, you agree to our ' +
-        '<a href="https://www.stubbenedge.com/terms-of-use/" target="_blank" class="link-style">Terms of Use</a>, our ' +
-        '<a href="https://www.stubbenedge.com/privacy-policy/" target="_blank" class="link-style">Privacy Policy</a>, ' +
-        'and our ' +
-        '<a href="https://prospekt-docs.s3.eu-west-1.amazonaws.com/MARKET_DATA_SUPPLY_AGREEMENT_PROSPEKT.pdf" target="_blank" class="link-style">Market Data Supply Agreement.</a></small>';
-
-     // User login form
-    const loginForm = document.createElement('form');
-    loginForm.className = "popup-form"
-
-    const emailInput = document.createElement('input');
-    emailInput.type = 'email';
-    emailInput.style.width = '95%';
-    emailInput.placeholder = 'Email';
-    emailInput.required = true;
-
-    const passwordInput = document.createElement('input');
-    passwordInput.type = 'password';
-    passwordInput.style.width = '95%';
-    passwordInput.placeholder = 'Password';
-    passwordInput.required = true;
-
-    // Toggle button for showing/hiding password
-    const togglePasswordButton1 = document.createElement('button');
-    const eyeIcon1 = document.createElement('i');
-    eyeIcon1.classList.add('fas', 'fa-eye'); // Font Awesome classes for the eye icon
-    togglePasswordButton1.appendChild(eyeIcon1); // Add the icon to the button
-    togglePasswordButton1.style = "margin-left: -40px; cursor: pointer; border: none; background-color: transparent;"
-    togglePasswordButton1.className = 'password-toggle-button';
-    togglePasswordButton1.type = 'button';
-    togglePasswordButton1.addEventListener('click', function() {
-        togglePasswordVisibility(passwordInput);
-    });
-
-    const passwordContainer = document.createElement('div');
-    passwordContainer.style.width = '100%'
-    passwordContainer.appendChild(passwordInput);
-    passwordContainer.appendChild(togglePasswordButton1); // Add toggle button
-
-    const loginButton = document.createElement('button');
-    loginButton.type = 'button';
-    loginButton.className = 'sqs-button-element--primary';
-    loginButton.style.display = 'block';
-    loginButton.style.width = '95%';
-    loginButton.style.margin = '5px';
-    loginButton.textContent = 'Login';
-
-    const returnMessage = document.createElement('div')
-    returnMessage.id = 'returnMessage'
-    returnMessage.style.color = '#FF6961';
-
-    loginButton.addEventListener('click', async function() {
-        let email = emailInput.value;
-        let password = passwordInput.value;
-
-        // Check if the email, password, and confirm password are provided
-        const isEmailValid = email != ''
-        const isPasswordValid = password != ''
-
-        if (isEmailValid && isPasswordValid) {
-            popupContainer.innerHTML = loader_html
-            await new Promise(r => setTimeout(r, 1000));
-            loginUser(email, password);
-        } else {
-            returnMessage.innerHTML = "Please provide valid inputs"
-        }
-    });    
-
-
-    loginForm.appendChild(emailInput);
-    loginForm.appendChild(passwordContainer);
-    loginForm.appendChild(returnMessage);
-    loginForm.appendChild(loginButton);
-    loginForm.appendChild(tsandcs);
-
-    const forgotPassword = document.createElement('button');
-    forgotPassword.id  = 'forgotPasswordButton'
-    forgotPassword.className = 'sqs-button-element--secondary';
-    forgotPassword.style.display = 'block';
-    forgotPassword.style.width = '95%';
-    forgotPassword.style.margin = '10px';
-    forgotPassword.textContent = 'Forgot password';
-    forgotPassword.addEventListener('click', function () {
-        window.location.href = "https://www.stubbenedgelabs.com/forgot-password"
-    });
-
-    popupContainer.appendChild(closeButton);
-    popupContainer.appendChild(headlineSummary);
-    popupContainer.appendChild(subtitle);
-    popupContainer.appendChild(loginForm);
-    popupContainer.appendChild(forgotPassword);
-    popupContainer.appendChild(redirectSignup);
-}
-
-function closePopup() {
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-    overlay.style.display = 'none';
-    popup.style.display = 'none';
-}
-
-const overlay = document.getElementById('overlay');
-overlay.addEventListener('click', closePopup);    
-
-function popupVerficationEmail(email, password) {
-    const popupContent = document.getElementById('popupContent');
-    const header = document.createElement('h4');
-    header.textContent = "Email Verification" 
-
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-
-    const headlineSummary = document.createElement('p');
-    headlineSummary.textContent = "Resend email verifcation link?" 
-
-    const noButton = document.createElement('button');
-    noButton.id = 'emailVerfNoBtn';
-    noButton.className = 'sqs-button-element--primary';
-    noButton.style.display = 'block';
-    noButton.style.width = '100%';
-    noButton.style.margin = '10px';
-    noButton.textContent = 'No';
-    noButton.addEventListener('click', closePopup);
-
-    const yesButton = document.createElement('button');
-    yesButton.id = 'emailVerfYesBtn';
-    yesButton.className = 'sqs-button-element--primary';
-    yesButton.style.display = 'block';
-    yesButton.style.width = '100%';
-    yesButton.style.margin = '10px';
-    yesButton.textContent = 'Yes';
-    yesButton.onclick = async function() {
-        popupContent.innerHTML = loader_html
-        await new Promise(r => setTimeout(r, 1000));
-        resendEmailVerification(email,password)
-    };
-
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container'
-    buttonContainer.appendChild(noButton);
-    buttonContainer.appendChild(yesButton);
-
-    popupContent.appendChild(closeButton)
-    popupContent.appendChild(header);
-    popupContent.appendChild(headlineSummary);
-    popupContent.appendChild(buttonContainer)
-}
-
-function resendEmailVerification(email, password) {
-    const popupContent = document.getElementById('popupContent');
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-
-    overlay.style.display = 'block';
-    popup.style.display = 'block';
-    popupContent.innerHTML = loader_html
-
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            popupContent.innerHTML = '' // Clear any previous content
-            popupContent.appendChild(closeButton)
-            if (xhr.status == 200) {
-                popupContent.innerHTML = 'Verification link sent. Please check your email for further details.'; 
-            } else if (xhr.status in defaultResponses) {
-                popupContent.innerHTML = defaultResponses[xhr.status]; 
-            } else {
-                popupContent.innerHTML = defaultResponses[999];
-            }
-        } 
-    }
-    xhr.open("POST", "https://prospect-gateway-a9jtfdvq.nw.gateway.dev/r353nd_v3r1fy_3m41l_l1nc", false);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.setRequestHeader('X-Prospekt', deviceFingerPrint);
-    xhr.send(JSON.stringify({"email_address": email, "password": password}));    
-}
-
-
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Tue 28 Nov 2023 10:39:28 UTC</p>
+<p hidden id=version_date>Tue 28 Nov 2023 11:08:50 UTC</p>
