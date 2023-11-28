@@ -1,0 +1,5 @@
+# ignore weird copies
+*.html-e
+
+# DS-store
+.DS_Store
