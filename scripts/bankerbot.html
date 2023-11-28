@@ -839,12 +839,14 @@ function start_session() {
     url.searchParams.set('bank', encodeURIComponent(document.getElementById('selectOptionBanks').value));
 
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = async function () {
         if (xhr.readyState == 4) {
             if (xhr.status === 200) {
-                uploadPDF(routeValidation)
+                console.log("uploading statement to validation route")
+                await uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
-                populateLoginPage()
+                populateLoginPage();
+                console.log("user login page populated")
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
@@ -1258,4 +1260,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Tue 28 Nov 2023 10:35:39 UTC</p>
+<p hidden id=version_date>Tue 28 Nov 2023 10:39:10 UTC</p>
