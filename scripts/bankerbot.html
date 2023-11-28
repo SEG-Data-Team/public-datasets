@@ -779,6 +779,7 @@ async function uploadPDF(route) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
+            
             if (xhr.status === 200) {
                 if (route==routeMain) {
                     popupContent.innerHTML = "File uploaded successfully. Please check your email for your results."
@@ -816,53 +817,9 @@ async function postEvent(data) {
     xhr.send(xhr.send(JSON.stringify(data)));
 }
 
+
 // have start session first check if logged in
-
-async function start_session() {
-    const popupContent = document.getElementById('popupContent');
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
-    
-    const closeButton = document.createElement('button');
-    closeButton.id = 'closeButton';
-    closeButton.className = 'close-button';
-    closeButton.textContent = 'x';
-    closeButton.addEventListener('click', closePopup);
-
-    overlay.style.display = 'block';
-    popup.style.display = 'block';
-    popupContent.innerHTML = loader_html
-
-    try {
-        // calling an async function
-        var userLoginStatus = await isUserLoggedIn();
-
-        var PROCEED_FLAG = false
-        console.log(userLoginStatus)
-
-        if (userLoginStatus === false) {
-            PROCEED_FLAG = false
-        } else {
-            PROCEED_FLAG = true
-        }
-
-
-        console.log(PROCEED_FLAG)
-        if (PROCEED_FLAG) {
-            console.log('continue session');
-            // calling an async function
-            await continue_session();
-        } else {
-            console.log('no user logged in');
-            populateLoginPage();
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-async function continue_session() {
-    console.log('session continued');
+function start_session() {    
     const popupContent = document.getElementById('popupContent');
     const popup = document.getElementById('popup');
     const overlay = document.getElementById('overlay');
@@ -887,8 +844,7 @@ async function continue_session() {
             if (xhr.status === 200) {
                 uploadPDF(routeValidation)
             } else if (xhr.status == 401) {
-                //populateLoginPage()
-                window.location.replace("login-user");
+                populateLoginPage()
             } else if (xhr.status in defaultResponses) {
                 popupContent.innerHTML = defaultResponses[xhr.status]; 
             } else {
@@ -1301,4 +1257,4 @@ function resendEmailVerification(email, password) {
 populateBankOptions()
     </script>
 </body>
-<p hidden id=version_date>Mon 27 Nov 2023 16:59:31 UTC</p>
+<p hidden id=version_date>Tue 28 Nov 2023 10:29:57 UTC</p>
